@@ -1,0 +1,47 @@
+- name: Ensure git repo
+  apt_repository:
+    repo: ppa:git-core/ppa
+    state: present
+  become: true
+
+- name: Install git
+  apt:
+    name: git
+    state: present
+  become: true
+
+- name: Check for existing gitconfig
+  stat:
+    path: "{{ user_home }}/.gitconfig"
+  register: gitconfig_stat
+
+- name: Backup gitconfig
+  command: mv {{ user_home }}/.gitconfig {{ user_home }}/.gitconfig.bak
+  args:
+    creates: "{{ user_home }}/.gitconfig.bak"
+  when: gitconfig_stat.stat.exists
+
+- name: Ensure gitconfig is up to date
+  template:
+    src: "gitconfig.j2"
+    dest: "{{ user_home }}/.gitconfig"
+
+- name: Ensure work dot directory
+  file:
+    path: "{{ user_home }}/.work"
+    state: directory
+  when: work_companies is defined
+
+- name: Ensure work gitconfig is up to date
+  template:
+    src: "workgitconfig.j2"
+    dest: "{{ user_home }}/.work/{{ item.name }}.gitconfig"
+  loop: "{{ work_companies }}"
+  when: work_companies is defined
+
+- name: Ensure work code dir
+  file:
+    path: "{{ user_home }}/docs/code/work/{{ item.name }}"
+    state: directory
+  loop: "{{ work_companies }}"
+  when: work_companies is defined

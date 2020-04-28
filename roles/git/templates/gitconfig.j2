@@ -1,0 +1,28 @@
+[core]
+    editor = vim
+[user]
+    name = {{ full_name }}
+    email = {{ git_email }}
+{% for i in work_companies|d([]) %}
+[includeIf "gitdir:{{ user_home }}/docs/code/work/{{ i.name }}/"]
+    path = ~/.work/{{ i.name }}.gitconfig
+{% endfor %}
+[alias]
+    a = add
+    b = branch
+    c = commit
+    d = diff
+    l = log
+    m = merge
+    r = rebase
+    s = status
+    co = checkout
+    dt = difftool
+    ps = push
+    pl = pull
+    lol = log --oneline
+    amend = commit --no-edit --amend
+    gconf = config --global
+    cl = clone
+    fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+    snapshot = "!f() { if [ '"$1"' ]; then git stash save -u \""$1"\"; else git stash -u; fi; git stash apply; }; f"

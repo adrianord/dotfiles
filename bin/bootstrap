@@ -15,4 +15,10 @@ if [ ! -d "$HOME/.dotfiles" ]; then
   git clone git@github.com:adrianord/dotfiles.git ~/.dotfiles
 fi
 
-ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml --ask-become-pass --tags $tags
+if [[ -f "$HOME/.dotfile" ]]; then
+  DOTFILE="$HOME/.dotfile"
+fi
+
+set -x
+ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml -K -t $tags ${DOTFILE:+-e @$DOTFILE}
+set +x

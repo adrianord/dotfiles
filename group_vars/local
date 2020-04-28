@@ -1,6 +1,10 @@
-dotfiles_user_home: "{{ '~' | expanduser }}"
-dotfiles_home: "{{ dotfiles_user_home }}/.dotfiles"
+user_home: "{{ '~' | expanduser }}"
+dotfiles_home: "{{ user_home }}/.dotfiles"
 
+# Add these to ~/.dotfile
 # full_name: fullname
 # git_user: git_username
 # git_email: git@email.com
+# work_companies:
+#   - name: company_name
+#     git_email: name@company.com
