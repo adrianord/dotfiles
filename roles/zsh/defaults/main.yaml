@@ -1,0 +1,21 @@
+files:
+  - file: .zshrc
+    subdir: ""
+  - file: defaults.zsh
+    subdir: ".zsh.d/"
+  - file: zsh_ssh_agent.zsh
+    subdir: "plugins/"
+  - file: aliases.zsh
+    subdir: ".zsh.d/"
+
+plugins:
+  - name: zsh-autosuggestions
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    zsh_file: zsh-autosuggestions/zsh-autosuggestions.zsh
+    enabled: true
+  - name: zsh-syntax-highlighting
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    zsh_file: zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    enabled: false
+  - zsh_file: zsh_ssh_agent.zsh
+    enabled: true

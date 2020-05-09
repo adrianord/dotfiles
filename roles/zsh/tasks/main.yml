@@ -1,0 +1,61 @@
+- name: Install zsh
+  apt:
+    name: zsh
+    state: present
+  become: true
+
+- name: Ensure zsh XDG config dir globally
+  lineinfile:
+    path: /etc/zsh/zshenv
+    line: export ZDOTDIR="${XDG_CONFIG_HOME:-${HOME}/.config}/zsh"
+  become: true
+
+- name: Ensure zsh config dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ user_home }}/.config/zsh/themes"
+    - "{{ user_home }}/.config/zsh/functions"
+    - "{{ user_home }}/.config/zsh/plugins"
+    - "{{ user_home }}/.config/zsh/.zsh.d"
+    - "{{ user_home }}/.local/share/zsh"
+    - "{{ user_home }}/.cache/zsh"
+
+- name: Ensure pure theme
+  git:
+    repo: git@github.com:adrianord/pure.git
+    dest: "{{ user_home }}/.config/zsh/themes/pure"
+    accept_hostkey: true
+    key_file: "{{ user_home }}/.ssh/id_ed25519"
+
+- name: Ensure zsh default files
+  copy:
+    src: "{{ item.file }}"
+    dest: "{{ user_home }}/.config/zsh/{{ item.subdir }}{{ item.file }}"
+  loop: "{{ files }}"
+
+- name: Clone enabled plugins
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ user_home }}/.config/zsh/plugins/{{ item.name }}"
+  loop: "{{ plugins }}"
+  when: "item.name is defined and item.repo is defined and item.enabled"
+
+- name: Remove disabled plugins
+  file:
+    path: "{{ user_home }}/.config/zsh/plugins/{{ item.name }}"
+    state: absent
+  loop: "{{ plugins }}"
+  when: "item.name is defined and not item.enabled"
+
+- name: Ensure plugins are enabled
+  template:
+    src: plugins.zsh.j2
+    dest: "{{ user_home }}/.config/zsh/.zsh.d/plugins.zsh"
+
+- name: Set user shell
+  user:
+    name: "{{ username }}"
+    shell: "/usr/bin/zsh"
+  become: true

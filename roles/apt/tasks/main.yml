@@ -2,16 +2,12 @@
   apt: upgrade=yes
   when: package_upgrade
   become: true
-  become_user: root
-  become_method: sudo
 
 - name: Install apt packages
   apt:
     name: "{{ item }}"
     update_cache: true
   become: true
-  become_user: root
-  become_method: sudo
   loop: "{{ packages }}"
 
 - name: Remove apt packages
@@ -20,8 +16,6 @@
     update_cache: true
     state: absent
   become: true
-  become_user: root
-  become_method: sudo
   loop: "{{ remove_packages }}"
 
 - name: Install dpkg packages

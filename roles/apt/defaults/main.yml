@@ -5,6 +5,7 @@ packages:
   - htop
   - jq
   - xz-utils
+  - fzf
 
 remove_packages: []
 

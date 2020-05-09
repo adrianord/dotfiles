@@ -1,0 +1,3 @@
+{% for item in plugins if item.zsh_file and item.enabled %}
+source ${ZDOTDIR}/plugins/{{ item.zsh_file }}
+{% endfor %}
