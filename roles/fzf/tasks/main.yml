@@ -1,0 +1,10 @@
+- name: Install fzf package
+  apt:
+    name: fzf
+    update_cache: true
+  become: true
+
+- name: Ensure zsh integration
+  copy:
+    src: fzf.zsh
+    dest: "{{ user_home }}/.config/zsh/.zsh.d"

@@ -4,3 +4,4 @@
     - apt
     - git
     - zsh
+    - fzf
