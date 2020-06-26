@@ -10,32 +10,42 @@
     state: present
   become: true
 
+- name: Ensure git XDG_CONFIG directory
+  file:
+    path: "{{ user_home }}/.config/git"
+    state: directory
+
 - name: Check for existing gitconfig
   stat:
     path: "{{ user_home }}/.gitconfig"
   register: gitconfig_stat
 
 - name: Backup gitconfig
-  command: mv {{ user_home }}/.gitconfig {{ user_home }}/.gitconfig.bak
+  command: mv {{ user_home }}/.gitconfig {{ user_home }}/.config/git/.gitconfig.bak
   args:
-    creates: "{{ user_home }}/.gitconfig.bak"
+    creates: "{{ user_home }}/.config/git/.gitconfig.bak"
   when: gitconfig_stat.stat.exists
+
+- name: Check for existing XDG_CONFIG gitconfig
+  stat:
+    path: "{{ user_home }}/.config/git/config"
+  register: xdg_gitconfig_stat
+
+- name: Backup XDG_CONFIG gitconfig
+  command: mv {{ user_home }}/.config/git/config {{ user_home }}/.config/git/config.bak
+  args:
+    creates: "{{ user_home }}/.config/git/config.bak"
+  when: xdg_gitconfig_stat.stat.exists
 
 - name: Ensure gitconfig is up to date
   template:
     src: "gitconfig.j2"
-    dest: "{{ user_home }}/.gitconfig"
-
-- name: Ensure work dot directory
-  file:
-    path: "{{ user_home }}/.work"
-    state: directory
-  when: work_companies is defined
+    dest: "{{ user_home }}/.config/git/config"
 
 - name: Ensure work gitconfig is up to date
   template:
     src: "workgitconfig.j2"
-    dest: "{{ user_home }}/.work/{{ item.name }}.gitconfig"
+    dest: "{{ user_home }}/.config/git/{{ item.name }}.config"
   loop: "{{ work_companies }}"
   when: work_companies is defined
 

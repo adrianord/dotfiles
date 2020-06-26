@@ -5,7 +5,7 @@
     email = {{ git_email }}
 {% for i in work_companies|d([]) %}
 [includeIf "gitdir:{{ user_home }}/docs/code/work/{{ i.name }}/"]
-    path = ~/.work/{{ i.name }}.gitconfig
+    path = ~/.config/git/{{ i.name }}.config
 {% endfor %}
 [alias]
     a = add
