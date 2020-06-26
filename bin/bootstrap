@@ -11,14 +11,14 @@ if ! [ -x "$(command -v ansible)" ]; then
   sudo apt install ansible
 fi
 
-if [ ! -d "$HOME/.dotfiles" ]; then
-  git clone git@github.com:adrianord/dotfiles.git ~/.dotfiles
+if [ ! -d "$HOME/.config/dotfiles/playbook" ]; then
+  git clone git@github.com:adrianord/dotfiles.git "$HOME"/config/dotfiles/playbook
 fi
 
-if [[ -f "$HOME/.dotfile" ]]; then
-  DOTFILE="$HOME/.dotfile"
+if [[ -f "$HOME/.config/dotfiles/config" ]]; then
+  CONFIG="$HOME/.config/dotfiles/config"
 fi
 
 set -x
-ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml -K -t $tags ${DOTFILE:+-e @$DOTFILE}
+ansible-playbook -i "${HOME}"/.config/dotfiles/playbook/hosts "${HOME}"/.config/dotfiles/playbook/dotfiles.yml -K -t $tags ${CONFIG:+-e @$CONFIG}
 set +x
