@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 set -e
 
+WORK_DIR="${XDG_DATA_HOME:-${HOME}/.config/dotfiles}"
+
 tags="$1"
 
 if [ -z $tags ]; then
@@ -11,14 +13,14 @@ if ! [ -x "$(command -v ansible)" ]; then
   sudo apt install ansible
 fi
 
-if [ ! -d "$HOME/.config/dotfiles/playbook" ]; then
-  git clone git@github.com:adrianord/dotfiles.git "$HOME"/config/dotfiles/playbook
+if [ ! -d "${WORK_DIR}/playbook" ]; then
+  git clone git@github.com:adrianord/dotfiles.git "${WORK_DIR}/playbook"
 fi
 
-if [[ -f "$HOME/.config/dotfiles/config" ]]; then
-  CONFIG="$HOME/.config/dotfiles/config"
+if [[ -f "${WORK_DIR}/config" ]]; then
+  CONFIG="${WORK_DIR}/config"
 fi
 
 set -x
-ansible-playbook -i "${HOME}"/.config/dotfiles/playbook/hosts "${HOME}"/.config/dotfiles/playbook/dotfiles.yml -K -t $tags ${CONFIG:+-e @$CONFIG}
+ansible-playbook -i "${WORK_DIR}/playbook/hosts" "${WORK_DIR}/playbook/dotfiles.yml" -K -t $tags ${CONFIG:+-e @$CONFIG}
 set +x

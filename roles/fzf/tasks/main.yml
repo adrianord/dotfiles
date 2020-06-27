@@ -7,4 +7,4 @@
 - name: Ensure zsh integration
   copy:
     src: fzf.zsh
-    dest: "{{ user_home }}/.config/zsh/.zsh.d"
+    dest: "{{ xdg_config_home }}/zsh/.zsh.d"

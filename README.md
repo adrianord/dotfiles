@@ -1,9 +1,9 @@
 # dotfiles
 Ansible configured dotfiles
 
-Clone repo `git clone https://github.com/adrianord/dotfiles ~/.dotfiles`
+Clone repo `git clone https://github.com/adrianord/dotfiles "${XDG_DATA_HOME:-${HOME}/.config/dotfiles}/config/dotfiles/playbook"`
 
-Create file `~/.dotfile` with user specific data
+Create file `${XDG_DATA_HOME:-${HOME}/.config/dotfiles}/config` with user specific data
 ```
 work_companies:
   - name: work
@@ -16,4 +16,4 @@ git_user: jdoe
 git_email: JohnDoe@email.com
 ```
 
-Run `~/.dotfiles/bin/bootstrap`
+Run `${XDG_DATA_HOME:-${HOME}/.config/dotfiles}/config/dotfiles/playbook/bin/bootstrap`
