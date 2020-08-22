@@ -14,7 +14,7 @@ if ! [ -x "$(command -v ansible)" ]; then
 fi
 
 if [ ! -d "${WORK_DIR}/playbook" ]; then
-  git clone git@github.com:adrianord/dotfiles.git "${WORK_DIR}/playbook"
+  git clone https://github.com/adrianord/dotfiles.git "${WORK_DIR}/playbook"
 fi
 
 if [[ -f "${WORK_DIR}/config" ]]; then

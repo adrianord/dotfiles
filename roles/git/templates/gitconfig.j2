@@ -26,3 +26,5 @@
     cl = clone
     fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
     snapshot = "!f() { if [ '"$1"' ]; then git stash save -u \""$1"\"; else git stash -u; fi; git stash apply; }; f"
+[pull]
+    rebase = true

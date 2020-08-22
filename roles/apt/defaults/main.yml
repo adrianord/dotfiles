@@ -6,8 +6,10 @@ packages:
   - jq
   - xz-utils
   - fzf
+  - neovim
 
-remove_packages: []
+remove_packages:
+  - vim
 
 dpkg:
   - https://github.com/sharkdp/bat/releases/download/v0.15.0/bat_0.15.0_amd64.deb
