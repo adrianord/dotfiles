@@ -1,8 +1,23 @@
 - name: Set up local workstation
   hosts: local
   roles:
-    - apt
-    - git
-    - zsh
-    - fzf
-    - node
+    - role: apt
+      tags:
+        - apt
+    - role: git
+      tags:
+        - git
+    - role: zsh
+      tags:
+        - zsh
+    - role: fzf
+      tags:
+        - fzf
+    - role: node
+      tags:
+        - node
+    - role: neovim
+      tags:
+        - vim
+        - neovim
+

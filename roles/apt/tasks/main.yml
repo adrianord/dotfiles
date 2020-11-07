@@ -1,5 +1,6 @@
 - name: Upgrade apt
-  apt: upgrade=yes
+  apt:
+    upgrade: "yes"
   when: package_upgrade
   become: true
 
