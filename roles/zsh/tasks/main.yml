@@ -30,10 +30,9 @@
 
 - name: Ensure pure theme
   git:
-    repo: git@github.com:adrianord/pure.git
+    repo: https://github.com/adrianord/pure.git
     dest: "{{ xdg_config_home }}/zsh/themes/pure"
     accept_hostkey: true
-    key_file: "{{ user_home }}/.ssh/id_ed25519"
 
 - name: Clone enabled plugins
   git:
