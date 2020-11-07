@@ -11,3 +11,11 @@ export LESSKEY="${xdg_config_home}/less/lesskey"
 export LESSHISTFILE="${xdg_cache_home}/less/history"
 
 source $HOME/.cargo/env
+
+if type kubectl > /dev/null; then
+  source <(kubectl completion zsh)
+fi
+
+if type helm > /dev/null; then
+  source <(helm completion zsh)
+fi
