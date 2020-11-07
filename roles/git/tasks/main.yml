@@ -49,6 +49,11 @@
   loop: "{{ work_companies }}"
   when: work_companies is defined
 
+- name: Ensure public code dir
+  file:
+    path: "{{ user_home }}/docs/code/public"
+    state: directory
+
 - name: Ensure work code dir
   file:
     path: "{{ user_home }}/docs/code/work/{{ item.name }}"
