@@ -10,7 +10,9 @@ echo hsts-file \= "${xdg_cache_home}/wget-hsts" >> "${xdg_config_home}/wgetrc"
 export LESSKEY="${xdg_config_home}/less/lesskey"
 export LESSHISTFILE="${xdg_cache_home}/less/history"
 
-source $HOME/.cargo/env
+if type cargo > /dev/null; then
+  source $HOME/.cargo/env
+fi
 
 if type kubectl > /dev/null; then
   source <(kubectl completion zsh)
