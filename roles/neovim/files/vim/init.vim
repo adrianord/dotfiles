@@ -4,6 +4,6 @@ set expandtab
 set cursorline
 set mouse=a
 
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white
+hi CursorLine cterm=NONE ctermbg=237 term=NONE
 
 tnoremap jj <C-\><C-n>
