@@ -4,7 +4,5 @@
     update_cache: true
   become: true
 
-- name: Ensure zsh integration
-  copy:
-    src: fzf.zsh
-    dest: "{{ xdg_config_home }}/zsh/.zsh.d"
+- include: zsh.yml
+  when: '"zsh" is in_tags(ansible_run_tags)'
