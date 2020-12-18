@@ -1,5 +1,8 @@
 xdg_config_home="${XDG_CONFIG_HOME:-${HOME}/.config}"
 xdg_cache_home="${XDG_CACHE_HOME:-${HOME}/.cache}"
+xdg_data_home=${XDG_DATA_HOME:-${HOME}/.local}
+
+export PATH=${PATH}:$xdg_data_home/bin
 
 # wget
 export WGETRC="${xdg_config_home}/wgetrc"
