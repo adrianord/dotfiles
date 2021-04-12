@@ -1,5 +1,10 @@
 now=$(date +%s)sec
 
+# Set up edit command line
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
 # Set up prompt
 fpath+="${ZDOTDIR}/themes/pure"
 autoload -Uz promptinit
