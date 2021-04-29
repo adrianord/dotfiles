@@ -30,7 +30,7 @@ require('packer').startup(function(use)
   use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons'}
   use 'folke/tokyonight.nvim'
   use {'kyazdani42/nvim-tree.lua', requires = 'nvim-web-devicons'}
-  use 'glepnir/dashboard-nvim'
+  --use 'glepnir/dashboard-nvim'
   use {
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
@@ -55,7 +55,19 @@ require('packer').startup(function(use)
 end)
 
 vim.cmd[[colorscheme tokyonight]]
-vim.g.dashboard_default_executive="telescope"
+--vim.g.dashboard_default_executive="telescope"
+
+require'telescope'.setup{
+  defaults = {
+    prompt_position = "top",
+    sorting_strategy = "ascending",
+    layout_defaults = {
+      vertical = {
+        mirror = true
+      },
+    },
+  }
+}
 
 require('bufferline').setup{
   options = {
