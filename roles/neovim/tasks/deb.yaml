@@ -1,0 +1,22 @@
+- name: Add Neovim Unstable PPA
+  apt_repository:
+    repo: ppa:neovim-ppa/unstable
+  become: true
+
+- name: Remove GNU vim
+  apt:
+    name: vim
+    state: absent
+  become: true
+
+- name: Ensure neovim and dependencies
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+  become: true
+  loop:
+    - neovim
+    - luajit
+    - python3
+    - python3-pip
+
