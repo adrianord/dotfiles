@@ -1,17 +1,13 @@
-local lua = require'languages.lua'
 local compe = require'compe'
 local lspconfig = require'lspconfig'
 local utils = require'utils'
 
 local languages = {
-  require'languages.lua',
+  [require'languages.lua'.name] = require'languages.lua',
 }
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -72,8 +68,8 @@ local function setup_servers()
   local servers = require'lspinstall'.installed_servers()
   for _, server in pairs(servers) do
     local config = make_config()
-    if server == "lua" then
-      config.settings = lua.settings
+    if languages[server] then
+      config.settings = languages[server].settings
     end
     lspconfig[server].setup(config)
   end
