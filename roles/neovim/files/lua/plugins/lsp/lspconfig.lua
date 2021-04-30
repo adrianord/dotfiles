@@ -1,10 +1,6 @@
-local compe = require'compe'
+local languages = require'languages'
 local lspconfig = require'lspconfig'
-local utils = require'utils'
-
-local languages = {
-  [require'languages.lua'.name] = require'languages.lua',
-}
+local lspinstall = require'lspinstall'
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -35,20 +31,6 @@ local on_attach = function(client, bufnr)
   if client.resolved_capabilities.document_range_formatting then
     buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
   end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
 end
 
 local function make_config()
@@ -56,16 +38,26 @@ local function make_config()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   return {
     root_dir = function(fname)
-      return lspconfig.util.find_git_ancestor(fname) or utils.find_session_directory()
+      return lspconfig.util.find_git_ancestor(fname)
+      or require'utils'.find_session_directory()
     end,
     capabilities = capabilities,
     on_attach = on_attach
   }
 end
 
+local function install_missing_servers()
+  local installed_servers = lspinstall.installed_servers()
+  for _, server in pairs(vim.tbl_keys(languages)) do
+    if not vim.tbl_contains(installed_servers, server) then
+      lspinstall.install_server(server)
+    end
+  end
+end
+
 local function setup_servers()
-  require'lspinstall'.setup()
-  local servers = require'lspinstall'.installed_servers()
+  lspinstall.setup()
+  local servers = lspinstall.installed_servers()
   for _, server in pairs(servers) do
     local config = make_config()
     if languages[server] then
@@ -75,35 +67,24 @@ local function setup_servers()
   end
 end
 
-setup_servers()
+local function config()
+  setup_servers()
+  install_missing_servers()
+  -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+  lspinstall.post_install_hook = function ()
+    setup_servers() -- reload installed servers
+    vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+  end
 
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+  vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"]]
+  vim.cmd[[inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>" : "\<S-Tab>"]]
 end
 
-compe.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-  };
+return {
+  setup = function(use)
+    use 'neovim/nvim-lspconfig'
+    use 'kabouzeid/nvim-lspinstall'
+    use 'nvim-lua/lsp_extensions.nvim'
+    config()
+  end
 }
-

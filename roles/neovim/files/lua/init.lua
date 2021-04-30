@@ -1,3 +1,2 @@
-require "general.settings"
-require "plugins"
-require "lsp"
+require'settings'.setup()
+require'plugins'.setup()

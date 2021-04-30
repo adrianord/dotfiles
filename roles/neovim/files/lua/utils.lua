@@ -28,3 +28,4 @@ local function find_session_directory()
 end
 
 return {opts = set_opts, opt = opt, map = map, find_session_directory = find_session_directory}
+
