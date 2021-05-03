@@ -6,5 +6,6 @@ return {
     require'plugins.appearance.telescope'.setup(use)
     require'plugins.appearance.nvim-tree'.setup(use)
     require'plugins.appearance.gitsigns'.setup(use)
+    require'plugins.appearance.floaterm'.setup(use)
   end
 }
