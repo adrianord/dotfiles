@@ -24,7 +24,7 @@ local settings = {
       telemetry = {
         enable = false,
     },
-  },
+  };
 }
 
-return {name = "lua", settings = settings}
+return {name = "lua", config = { settings = settings }}

@@ -1,3 +1,5 @@
-local settings = {}
+local config = {
+  
+}
 
-return {name = "rust", settings = settings}
+return {name = "rust", config = config}
