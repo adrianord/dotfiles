@@ -29,7 +29,9 @@ end
 
 return {
   setup = function(use)
-    use 'hrsh7th/nvim-compe'
-    config()
+    use {
+      'hrsh7th/nvim-compe',
+      config = config
+    }
   end
 }

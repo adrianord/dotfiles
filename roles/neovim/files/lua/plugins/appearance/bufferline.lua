@@ -19,7 +19,10 @@ end
 
 return {
   setup = function(use)
-    use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons'}
-    config()
+    use {
+      'akinsho/nvim-bufferline.lua',
+      requires = 'kyazdani42/nvim-web-devicons',
+      config = config
+    }
   end
 }

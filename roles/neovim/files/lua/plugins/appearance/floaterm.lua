@@ -7,7 +7,9 @@ end
 
 return {
   setup = function(use)
-    use "voldikss/vim-floaterm"
-    config()
+    use {
+      "voldikss/vim-floaterm",
+      config = config
+    }
   end
 }

@@ -11,8 +11,8 @@ return {
   setup = function(use)
     use {
       'nvim-treesitter/nvim-treesitter',
-      run = ":TSUpdate"
+      run = ":TSUpdate",
+      config = config
     }
-    config()
   end
 }

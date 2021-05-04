@@ -7,5 +7,6 @@ return {
     require'plugins.appearance.nvim-tree'.setup(use)
     require'plugins.appearance.gitsigns'.setup(use)
     require'plugins.appearance.floaterm'.setup(use)
+    require'plugins.appearance.startify'.setup(use)
   end
 }

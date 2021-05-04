@@ -11,7 +11,10 @@ end
 
 return {
   setup = function(use)
-    use {'glepnir/lspsaga.nvim', branch = 'main'}
-    config()
+    use {
+      'glepnir/lspsaga.nvim',
+      branch = 'main',
+      config = config
+    }
   end
 }
