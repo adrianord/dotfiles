@@ -1,3 +1,8 @@
+local name = 'lua'
+local server = 'sumneko_lua'
+
+local default_config = require'lspconfig'[server].document_config
+
 local settings = {
   Lua = {
     runtime = {
@@ -27,4 +32,12 @@ local settings = {
   };
 }
 
-return {name = "lua", config = { settings = settings }}
+local config = {
+  settings = settings,
+  on_new_config = function(new_config, new_root_dir)
+    new_config.cmd = require'lspcontainers'.command(server, { root_dir = new_root_dir })
+  end
+}
+
+return {name = name, server = server, config = vim.tbl_deep_extend("keep", config, default_config)}
+

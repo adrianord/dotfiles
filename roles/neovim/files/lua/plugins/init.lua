@@ -12,8 +12,8 @@ local function packer_setup()
   require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
-    require'plugins.lsp'.setup(use)
     require'plugins.appearance'.setup(use)
+    require'plugins.lsp'.setup(use)
   end)
 end
 

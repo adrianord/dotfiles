@@ -1,7 +1,6 @@
 local function config()
   local languages = require'languages'
   local lspconfig = require'lspconfig'
-  local lspinstall = require'lspinstall'
 
   local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -49,46 +48,56 @@ local function config()
     }
   end
 
-  local function install_missing_servers()
-    local installed_servers = lspinstall.installed_servers()
-    for _, server in pairs(vim.tbl_keys(languages)) do
-      if not vim.tbl_contains(installed_servers, server) then
-        lspinstall.install_server(server)
-      end
-    end
-  end
-
   local function setup_servers()
-    lspinstall.setup()
-    local servers = lspinstall.installed_servers()
-    for _, server in pairs(servers) do
-      local configuration = make_config()
-      if languages[server] then
-        configuration = vim.tbl_deep_extend("force", configuration, languages[server].config)
-      end
-      lspconfig[server].setup(configuration)
+    local base_config = make_config()
+    for _, language in pairs(languages) do
+      local configuration = vim.tbl_deep_extend("force", language.config, base_config)
+      lspconfig[language.server].setup(configuration)
     end
   end
-
-
   setup_servers()
-  install_missing_servers()
-  -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-  lspinstall.post_install_hook = function ()
-    setup_servers() -- reload installed servers
-    vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-  end
+
+  --local lua_server = "sumneko_lua"
+  --local base_config = make_config()
+  --local lua_config = vim.tbl_deep_extend("keep", languages["lua"].config, base_config)
+  --require'lspconfig'[lua_server].setup(lua_config)
+--
+--  local docker_server = "dockerls"
+--  local docker_config = vim.tbl_deep_extend("keep", {on_new_config = function(new_config, new_root_dir)
+--    new_config.cmd = require'lspcontainers'.command(docker_server, {root_dir = new_root_dir})
+--  end}, base_config)
+--  require'lspconfig'[docker_server].setup(docker_config)
+--  local typescript_server = "tsserver"
+--  local typescript_config = vim.tbl_deep_extend("keep", {on_new_config = function(new_config, new_root_dir)
+--    new_config.cmd = require'lspcontainers'.command(typescript_server, {
+--      root_dir = new_root_dir,
+--      additional_languages = { tsserver = "lspcontainers/typescript-language-server:0.5.1"}
+--      })
+--  end}, base_config)
+-- require'lspconfig'[typescript_server].setup(typescript_config)
 
   vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"]]
   vim.cmd[[inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>" : "\<S-Tab>"]]
+
+  -- TODO: !!! Remove this once processId is configurable !!!
+  -- https://github.com/neovim/neovim/issues/14504
+  --vim.loop.getpid = function() return nil end
 end
+
+
 
 return {
   setup = function(use)
+    vim.lsp.set_log_level("trace")
     use {
       'neovim/nvim-lspconfig',
-      requires = {'kabouzeid/nvim-lspinstall', 'nvim-lua/lsp_extensions.nvim'},
+      requires = {
+        'kabouzeid/nvim-lspinstall',
+        'nvim-lua/lsp_extensions.nvim',
+        {'adrianord/lspcontainers.nvim', branch='feat_table_languages'}
+      },
       config = config
     }
   end
 }
+
