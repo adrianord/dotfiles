@@ -1,6 +1,7 @@
 local name = "tokyonight"
 
 local function config()
+  vim.cmd('colorscheme tokyonight')
 end
 
 return {
