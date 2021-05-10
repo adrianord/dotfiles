@@ -57,31 +57,8 @@ local function config()
   end
   setup_servers()
 
-  --local lua_server = "sumneko_lua"
-  --local base_config = make_config()
-  --local lua_config = vim.tbl_deep_extend("keep", languages["lua"].config, base_config)
-  --require'lspconfig'[lua_server].setup(lua_config)
---
---  local docker_server = "dockerls"
---  local docker_config = vim.tbl_deep_extend("keep", {on_new_config = function(new_config, new_root_dir)
---    new_config.cmd = require'lspcontainers'.command(docker_server, {root_dir = new_root_dir})
---  end}, base_config)
---  require'lspconfig'[docker_server].setup(docker_config)
---  local typescript_server = "tsserver"
---  local typescript_config = vim.tbl_deep_extend("keep", {on_new_config = function(new_config, new_root_dir)
---    new_config.cmd = require'lspcontainers'.command(typescript_server, {
---      root_dir = new_root_dir,
---      additional_languages = { tsserver = "lspcontainers/typescript-language-server:0.5.1"}
---      })
---  end}, base_config)
--- require'lspconfig'[typescript_server].setup(typescript_config)
-
   vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"]]
   vim.cmd[[inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>" : "\<S-Tab>"]]
-
-  -- TODO: !!! Remove this once processId is configurable !!!
-  -- https://github.com/neovim/neovim/issues/14504
-  --vim.loop.getpid = function() return nil end
 end
 
 
@@ -92,9 +69,8 @@ return {
     use {
       'neovim/nvim-lspconfig',
       requires = {
-        'kabouzeid/nvim-lspinstall',
         'nvim-lua/lsp_extensions.nvim',
-        {'adrianord/lspcontainers.nvim', branch='feat_table_languages'}
+        {'lspcontainers/lspcontainers.nvim'}
       },
       config = config
     }

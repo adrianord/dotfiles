@@ -1,14 +1,17 @@
 local create = require'languages.utils'.create_simple
 
 local docker = create{ name = 'docker', server = 'dockerls' }
-local yaml = create{ name = "yaml", server = "yamlls", image = "lspcontainers/yaml-language-server:0.18.0"}
-local bash = create{ name = "bash", server = "bashls", image = "lspcontainers/bash-language-server:1.17.0"}
+local yaml = create{ name = "yaml", server = "yamlls"}
+local bash = create{ name = "bash", server = "bashls"}
+local rust = create{ name = "rust", server = "rust_analyzer"}
+local typescript = create{ name = "typescript", server = "tsserver"}
 
 return {
   [require'languages.lua'.name] = require'languages.lua',
   [docker.name] = docker,
   [yaml.name] = yaml,
   [bash.name] = bash,
-
+  [rust.name] = rust,
+  [typescript.name] = typescript,
 --  [require'languages.rust'.name] = require'languages.rust',
 }
