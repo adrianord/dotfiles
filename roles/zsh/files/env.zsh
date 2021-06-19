@@ -31,5 +31,12 @@ fi
 
 if [ -d "$HOME/.pulumi/bin" ]; then
   export PATH=$PATH:$HOME/.pulumi/bin
+
+if type gcloud > /dev/null; then
+  source /snap/google-cloud-sdk/current/completion.zsh.inc
+fi
+
+if type pulumi > /dev/null; then
+  source <(pulumi gen-completion zsh)
 fi
 
