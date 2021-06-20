@@ -35,7 +35,10 @@ for file in ${ZDOTDIR}/.zsh.d/*(.); do
   source "$file"
 done
 
-echo .zshrc loaded in $(TZ=UTC date --date now-$now +%M:%S.%N)
-
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+
+setopt AUTO_PUSHD
+
+echo .zshrc loaded in $(TZ=UTC date --date now-$now +%M:%S.%N)
+
