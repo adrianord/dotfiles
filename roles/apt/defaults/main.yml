@@ -18,10 +18,12 @@ dpkg_versions:
   fd: 8.2.1
   ripgrep: 13.0.0
   delta: 0.8.0
+  duf: 0.6.2
 
 dpkg:
   - "https://github.com/sharkdp/bat/releases/download/v{{ dpkg_versions.bat }}/bat_{{ dpkg_versions.bat }}_amd64.deb"
   - "https://github.com/sharkdp/fd/releases/download/v{{ dpkg_versions.fd }}/fd_{{ dpkg_versions.fd }}_amd64.deb"
   - "https://github.com/BurntSushi/ripgrep/releases/download/{{ dpkg_versions.ripgrep }}/ripgrep_{{ dpkg_versions.ripgrep }}_amd64.deb"
   - "https://github.com/dandavison/delta/releases/download/{{ dpkg_versions.delta }}/git-delta_{{ dpkg_versions.delta }}_amd64.deb"
+  - "https://github.com/muesli/duf/releases/download/v{{ dpkg_versions.duf }}/duf_{{ dpkg_versions.duf }}_linux_amd64.deb"
 
