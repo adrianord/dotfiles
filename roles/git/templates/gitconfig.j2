@@ -28,3 +28,26 @@
     snapshot = "!f() { if [ '"$1"' ]; then git stash save -u \""$1"\"; else git stash -u; fi; git stash apply; }; f"
 [pull]
     rebase = true
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+    syntax-theme = Monokai Extended
+    navigate = true
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+
