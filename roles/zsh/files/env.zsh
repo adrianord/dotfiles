@@ -38,11 +38,15 @@ if [ -d "$HOME/.pulumi/bin" ]; then
   export PATH=$PATH:$HOME/.pulumi/bin
 fi
 
+if type pulumi > /dev/null; then
+  source <(pulumi gen-completion zsh)
+fi
+
 if type gcloud > /dev/null; then
   source /snap/google-cloud-sdk/current/completion.zsh.inc
 fi
 
-if type pulumi > /dev/null; then
-  source <(pulumi gen-completion zsh)
+if [ -d "$HOME/.dotnet" ]; then
+  export PATH=$PATH:$HOME/.dotnet
 fi
 
