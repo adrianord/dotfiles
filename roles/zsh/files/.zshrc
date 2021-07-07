@@ -19,10 +19,18 @@ bindkey -e
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-# Keep 1000 lines of history within shell
-HISTSIZE=1000
-SAVEHIST=1000
+# Set up history
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
 HISTFILE="${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/history"
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_REDUCE_BLANKS
 
 # User modern completion system
 autoload -Uz compinit
